@@ -21,6 +21,9 @@ class Common_Twig_Extension extends Twig_Extension
       'count'       => new Twig_Filter_Function('count'),
       'unhttp'      => new Twig_Filter_Function('common_twig_extension_unhttp'),
       'product_reference' => new Twig_Filter_Function('product_reference'),
+      'split'       => new Twig_Filter_Function('twig_split_filter', array('needs_environment' => 'true')),
+      'first'       =>  new Twig_Filter_Function('first', 'twig_first', array('needs_environment' => true)),
+      'last'        =>  new Twig_Filter_Function('last', 'twig_last', array('needs_environment' => true)),
     );
   }
   
@@ -48,4 +51,38 @@ function common_twig_extension_unhttp($url)
 
 function product_reference($product_id){
     return Doctrine::getTable("Product")->getReference($product_id);
+}
+
+function twig_split_filter(Twig_Environment $env, $value, $delimiter, $limit = null)
+{
+  if (!empty($delimiter)) {
+    return null === $limit ? explode($delimiter, $value) : explode($delimiter, $value, $limit);
+  }
+  if (!function_exists('mb_get_info') || null === $charset = $env->getCharset()) {
+    return str_split($value, null === $limit ? 1 : $limit);
+  }
+  if ($limit <= 1) {
+    return preg_split('/(?<!^)(?!$)/u', $value);
+  }
+  $length = mb_strlen($value, $charset);
+  if ($length < $limit) {
+    return array($value);
+  }
+  $r = array();
+  for ($i = 0; $i < $length; $i += $limit) {
+    $r[] = mb_substr($value, $i, $limit, $charset);
+  }
+  return $r;
+}
+
+function twig_first(Twig_Environment $env, $item)
+{
+  $elements = twig_slice($env, $item, 0, 1, false);
+  return is_string($elements) ? $elements : current($elements);
+}
+
+function twig_last(Twig_Environment $env, $item)
+{
+  $elements = twig_slice($env, $item, -1, 1, false);
+  return is_string($elements) ? $elements : current($elements);
 }
