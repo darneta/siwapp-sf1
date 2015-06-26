@@ -34,14 +34,17 @@ class RecurringInvoiceTable extends Doctrine_Table
     }
     return $pending_count;
   }
-    
+
   /**
    * creates all the pending invoices
    *
-   * @return void
+   * @return array|Invoice[]
    **/
   public static function createPendingInvoices()
   {
+    /** @var Invoice[] $invoices */
+    $invoices = array();
+
     // first check status on all recurring
     RecurringInvoiceTable::setPendingInvoices();
 
@@ -56,9 +59,12 @@ class RecurringInvoiceTable extends Doctrine_Table
         {
           $i = $r->generateInvoice();
           $r->refresh(true);
+          $invoices[] = $i;
         }
         $r->checkStatus()->save();
       }
     }
+
+    return $invoices;
   }
 }
