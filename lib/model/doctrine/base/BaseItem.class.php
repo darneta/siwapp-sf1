@@ -78,7 +78,10 @@ abstract class BaseItem extends sfDoctrineRecord
              'default' => 0,
              'length' => 53,
              ));
-
+        $this->hasColumn('unit', 'string', 50, array(
+            'type' => 'string',
+            'length' => 50,
+        ));
 
         $this->index('desc', array(
              'fields' => 

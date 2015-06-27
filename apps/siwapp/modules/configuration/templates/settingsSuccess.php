@@ -68,6 +68,23 @@
         <?php echo __('The initial value will only be used for the first saved invoice of the series if there are no invoices assigned.') ?>
       </small>
     </fieldset>
+
+    <fieldset class="left seriess taxseries">
+      <h3><?php echo __('Units') ?></h3>
+      <div id="units">
+        <ul class="head">
+          <a href="#" class="xit"></a>
+          <li class="name"><strong><?php echo __('Unit')?></strong></li>
+        </ul>
+        <?php foreach ($form['units'] as $s): ?>
+          <?php echo $s?>
+        <?php endforeach ?>
+      </div>
+      <div class="clear"></div>
+      <small>
+        <a id="addNewUnit" href="#" class="to:units"><?php echo __('Add a new unit') ?></a><br/>
+      </small>
+    </fieldset>
     
     <fieldset class="left">
       <h3><?php echo __('PDF Settings') ?></h3>

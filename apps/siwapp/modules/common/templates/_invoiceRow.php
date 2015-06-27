@@ -36,6 +36,9 @@ $currency = $sf_user->getAttribute('currency');
       echo $invoiceItemForm['quantity']->render(array(), ESC_RAW);
     endif;
   ?></td>
+  <td>
+    <?php include_partial('common/unitSpan',array('unitName'=>$invoiceItemForm['unit']->getValue(),'rowId'=>$rowId,'err'=>$err)); ?>
+  </td>
   <td class="right taxes_td">
     <span id="<?php echo $rowId?>_taxes" class="taglist taxes">
       <?php $err = $invoiceItemForm['taxes_list']->hasError() ? 'error' : '';

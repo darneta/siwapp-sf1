@@ -8,6 +8,7 @@
       <th><?php echo __('Description') ?></th>
       <th class="right"><?php echo __('Unit Cost') ?></th>
       <th class="right"><?php echo __('Qty') ?></th>
+      <th class="right"><?php echo __('Unit') ?></th>
       <th class="right"><?php echo __('Taxes') ?></th>
       <th class="right"><?php echo __('Discount') ?></th>
       <th class="right"><?php echo __('Price') ?></th>
@@ -29,7 +30,7 @@
 
   <tfoot id="global_calculations">
     <tr>
-      <td colspan="<?php echo ($sf_user->has_module('products'))?'5':'4'?>" rowspan="5" class="noborder top">
+      <td colspan="<?php echo ($sf_user->has_module('products'))?'6':'5'?>" rowspan="5" class="noborder top">
         <div id="addItem">
           <?php 
             $addItemOptions = array(

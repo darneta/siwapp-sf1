@@ -23,6 +23,7 @@ abstract class BaseItemForm extends BaseFormDoctrine
       'description'  => new sfWidgetFormInputText(),
       'unitary_cost' => new sfWidgetFormInputText(),
       'taxes_list'   => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Tax')),
+      'unit'         => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
@@ -34,6 +35,7 @@ abstract class BaseItemForm extends BaseFormDoctrine
       'description'  => new sfValidatorString(array('max_length' => 20000, 'required' => false)),
       'unitary_cost' => new sfValidatorNumber(array('required' => false)),
       'taxes_list'   => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Tax', 'required' => false)),
+      'unit'         => new sfValidatorString(array('max_length' => 50, 'required' => true)),
     ));
 
     $this->widgetSchema->setNameFormat('item[%s]');

@@ -22,8 +22,8 @@ class Common_Twig_Extension extends Twig_Extension
       'unhttp'      => new Twig_Filter_Function('common_twig_extension_unhttp'),
       'product_reference' => new Twig_Filter_Function('product_reference'),
       'split'       => new Twig_Filter_Function('twig_split_filter', array('needs_environment' => 'true')),
-      'first'       =>  new Twig_Filter_Function('first', 'twig_first', array('needs_environment' => true)),
-      'last'        =>  new Twig_Filter_Function('last', 'twig_last', array('needs_environment' => true)),
+      'first'       =>  new Twig_Filter_Function('twig_first', array('needs_environment' => 'true')),
+      'last'        =>  new Twig_Filter_Function('twig_last', array('needs_environment' => 'true')),
     );
   }
   
@@ -85,4 +85,29 @@ function twig_last(Twig_Environment $env, $item)
 {
   $elements = twig_slice($env, $item, -1, 1, false);
   return is_string($elements) ? $elements : current($elements);
+}
+
+function twig_slice(Twig_Environment $env, $item, $start, $length = null, $preserveKeys = false)
+{
+  if ($item instanceof Traversable) {
+    if ($item instanceof IteratorAggregate) {
+      $item = $item->getIterator();
+    }
+    if ($start >= 0 && $length >= 0 && $item instanceof Iterator) {
+      try {
+        return iterator_to_array(new LimitIterator($item, $start, $length === null ? -1 : $length), $preserveKeys);
+      } catch (OutOfBoundsException $exception) {
+        return array();
+      }
+    }
+    $item = iterator_to_array($item, $preserveKeys);
+  }
+  if (is_array($item)) {
+    return array_slice($item, $start, $length, $preserveKeys);
+  }
+  $item = (string) $item;
+  if (function_exists('mb_get_info') && null !== $charset = $env->getCharset()) {
+    return (string) mb_substr($item, $start, null === $length ? mb_strlen($item, $charset) - $start : $length, $charset);
+  }
+  return (string) (null === $length ? substr($item, $start) : substr($item, $start, $length));
 }

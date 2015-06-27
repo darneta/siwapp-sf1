@@ -83,8 +83,9 @@ class GlobalSettingsForm extends FormsContainer
     
     
     /* TAXES & SERIES*/
-    $this->embedForm('taxes',new TaxesForm());
-    $this->embedForm('seriess',new SeriessForm());
+    $this->embedForm('taxes', new TaxesForm());
+    $this->embedForm('seriess', new SeriessForm());
+    $this->embedForm('units', new UnitsForm());
 
     $this->validatorSchema->setPostValidator(new sfValidatorAnd(
         array(
