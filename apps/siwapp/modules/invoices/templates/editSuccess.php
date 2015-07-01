@@ -11,6 +11,7 @@ $invoice = $invoiceForm->getObject();
 
   <form action="<?php echo url_for("invoices/$action") ?>" method="post" <?php $invoiceForm->isMultipart() and print 'enctype="multipart/form-data" ' ?> class="invoice">
     <input type="hidden" id="send_email" name="send_email" value="0" />
+    <input type="hidden" id="generate_invoice" name="generate_invoice" value="0" />
   <?php 
     echo $invoiceForm['id'];
     // here draft, in case were saved as draft, the button must put 1 here
@@ -66,6 +67,10 @@ $invoice = $invoiceForm->getObject();
     if ($invoice->isNew() || $db_draft)
     {
       echo gButton_to_function(__('Save as draft'), "\$('form.invoice').saveInvoiceAsDraft()", 'class=action save-draft', 'button=true')."&nbsp;&nbsp;";
+    }
+    if (!$invoice->getSeries()->getPre())
+    {
+      echo gButton_to_function(__('Save and create invoice'), "\$('form.invoice').setValueAndSendForm('#generate_invoice', 1);", 'class=action create-invoice')." ";
     }
     echo gButton_to_function(__('Save and send by e-mail'),"\$('form.invoice').saveInvoiceAndEmail();", 'class=action send save-email', 'button=true')."&nbsp;&nbsp;";
     

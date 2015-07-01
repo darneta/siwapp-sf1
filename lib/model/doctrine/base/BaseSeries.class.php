@@ -49,6 +49,10 @@ abstract class BaseSeries extends sfDoctrineRecord
              'type' => 'boolean',
              'default' => true,
              ));
+        $this->hasColumn('pre', 'boolean', null, array(
+            'type' => 'boolean',
+            'default' => false,
+        ));
 
         $this->option('charset', 'utf8');
     }

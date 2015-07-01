@@ -31,7 +31,73 @@ class Printer
     $this->template = $template;
     $this->loader   = new Twig_Loader_Database();
   }
-  
+
+  public function renderEmailFilename($data) {
+    $twig = new Twig_Environment($this->loader, array('cache'=>sfConfig::get('sf_cache_dir'), 'auto_reload'=>true));
+    // coupled!
+    $twig->addExtension(new Common_Twig_Extension());
+
+    $tpl = $twig->loadTemplate('email-filename-'.$this->template);
+
+    $body = null;
+
+    foreach ($data as $i => $dataUnit)
+    {
+      $tmp = $tpl->render(array(
+          $this->model => $dataUnit,
+          'settings'   => new SettingsTagsArray(), // coupled!
+      ));
+
+      $body .= $tmp;
+    }
+
+    return $body;
+  }
+
+  public function renderEmailSubject($data) {
+    $twig = new Twig_Environment($this->loader, array('cache'=>sfConfig::get('sf_cache_dir'), 'auto_reload'=>true));
+    // coupled!
+    $twig->addExtension(new Common_Twig_Extension());
+
+    $tpl = $twig->loadTemplate('email-title-'.$this->template);
+
+    $body = null;
+
+    foreach ($data as $i => $dataUnit)
+    {
+      $tmp = $tpl->render(array(
+          $this->model => $dataUnit,
+          'settings'   => new SettingsTagsArray(), // coupled!
+      ));
+
+      $body .= $tmp;
+    }
+
+    return $body;
+  }
+
+  public function renderEmail($data) {
+    $twig = new Twig_Environment($this->loader, array('cache'=>sfConfig::get('sf_cache_dir'), 'auto_reload'=>true));
+    // coupled!
+    $twig->addExtension(new Common_Twig_Extension());
+
+    $tpl = $twig->loadTemplate('email-'.$this->template);
+
+    $body = null;
+
+    foreach ($data as $i => $dataUnit)
+    {
+      $tmp = $tpl->render(array(
+          $this->model => $dataUnit,
+          'settings'   => new SettingsTagsArray(), // coupled!
+      ));
+
+      $body .= $tmp;
+    }
+
+    return $body;
+  }
+
   public function render($data, $pdf = false)
   {
     $twig = new Twig_Environment($this->loader, array('cache'=>sfConfig::get('sf_cache_dir'), 'auto_reload'=>true));

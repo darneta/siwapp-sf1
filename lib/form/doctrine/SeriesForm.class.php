@@ -18,6 +18,7 @@ class SeriesForm extends BaseSeriesForm
     $this->widgetSchema['name']->setAttribute('class','name');
     $this->widgetSchema['value']->setAttribute('class','value');
     $this->widgetSchema['first_number']->setAttribute('class','first_number');
+    $this->widgetSchema['pre']->setAttribute('class', 'active');
     $this->widgetSchema->setFormFormatterName('Xit');
   }
 }

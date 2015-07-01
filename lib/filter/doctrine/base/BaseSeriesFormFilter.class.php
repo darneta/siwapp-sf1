@@ -17,6 +17,7 @@ abstract class BaseSeriesFormFilter extends BaseFormFilterDoctrine
       'value'        => new sfWidgetFormFilterInput(),
       'first_number' => new sfWidgetFormFilterInput(),
       'enabled'      => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
+      'pre'      => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
     ));
 
     $this->setValidators(array(
@@ -24,6 +25,7 @@ abstract class BaseSeriesFormFilter extends BaseFormFilterDoctrine
       'value'        => new sfValidatorPass(array('required' => false)),
       'first_number' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'enabled'      => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
+      'pre'      => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
     ));
 
     $this->widgetSchema->setNameFormat('series_filters[%s]');
@@ -48,6 +50,7 @@ abstract class BaseSeriesFormFilter extends BaseFormFilterDoctrine
       'value'        => 'Text',
       'first_number' => 'Number',
       'enabled'      => 'Boolean',
+      'pre'          => 'Boolean',
     );
   }
 }

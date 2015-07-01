@@ -37,6 +37,15 @@ abstract class BaseTemplate extends sfDoctrineRecord
              'type' => 'string',
              'length' => 200,
              ));
+        $this->hasColumn('email_title', 'clob', null, array(
+            'type' => 'clob'
+        ));
+        $this->hasColumn('email_template', 'clob', null, array(
+            'type' => 'clob',
+        ));
+        $this->hasColumn('email_filename', 'clob', null, array(
+            'type' => 'clob'
+        ));
 
         $this->option('charset', 'utf8');
     }

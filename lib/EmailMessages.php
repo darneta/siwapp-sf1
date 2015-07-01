@@ -92,19 +92,21 @@ class InvoiceMessage extends SiwappMessage
 
     try
     {
+      $filename = $printer->renderEmailFilename($data);
+      $filename = $filename ? $filename . '.pdf' : $model . '-' . $invoice->getId() . '.pdf';
+
       $body = $printer->render($data);
       $pdf = $printer->renderPdf($data)->output();
       $attachment = new Swift_Attachment(
                             $pdf,
-                            $model.'-'.$invoice->getId().'.pdf',
+                            $filename,
                             'application/pdf'
                             );
       $this
-        ->setSubject(PropertyTable::get('company_name').' ['.$model.': '.$invoice.']')
-        ->setBody($printer->render($data), 'text/html')
+        ->setSubject($printer->renderEmailSubject($data))
+        ->setBody($printer->renderEmail($data), 'text/plain')
         ->attach($attachment);
       $this->setReadyState(true);
-      
     }
     catch(LogicException $e)
     {

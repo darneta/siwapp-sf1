@@ -20,6 +20,7 @@ abstract class BaseSeriesForm extends BaseFormDoctrine
       'value'        => new sfWidgetFormInputText(),
       'first_number' => new sfWidgetFormInputText(),
       'enabled'      => new sfWidgetFormInputCheckbox(),
+      'pre'      => new sfWidgetFormInputCheckbox(),
     ));
 
     $this->setValidators(array(
@@ -28,6 +29,7 @@ abstract class BaseSeriesForm extends BaseFormDoctrine
       'value'        => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'first_number' => new sfValidatorInteger(array('required' => false)),
       'enabled'      => new sfValidatorBoolean(array('required' => false)),
+      'pre'      => new sfValidatorBoolean(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('series[%s]');

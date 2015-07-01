@@ -161,5 +161,55 @@ class Invoice extends BaseInvoice
     return $this;
   }
 
-  
+  public function generateInvoice()
+  {
+    $invoice = new Invoice();
+
+    // Get Invoice column mapping and intersect with Estimate columns
+    // to remove non common columns. Unset id and type columns.
+    $iKeys = array_flip(array_keys($invoice->getTable()->getColumns()));
+    $data  = $this->toArray(false);
+    unset(
+        $data['id'],
+        $data['type'],
+        $data['created_at'],
+        $data['updated_at'],
+        $data['draft'],
+        $data['number'],
+        $data['sent_by_email'],
+        $data['series_id'],
+        $data['closed']
+    );
+    $data  = array_intersect_key($data, $iKeys);
+
+    $invoice->fromArray($data);
+    // $invoice->setDraft(true);
+    $invoice->setIssueDate(sfDate::getInstance()->format('Y-m-d'));
+    $invoice->setDueDate(sfDate::getInstance()->addWeek()->format('Y-m-d'));
+
+    // Copy Items and taxes
+    foreach ($this->Items as $item)
+    {
+      $iTmp = $item->copy(false);
+      foreach ($item->Taxes as $tax)
+      {
+        $iTmp->Taxes[] = $tax;
+      }
+      $invoice->Items[] = $iTmp;
+    }
+
+    // copy tags
+    foreach ($this->getTags() as $tag)
+    {
+      $invoice->addTag($tag);
+    }
+
+    if ($invoice->trySave())
+    {
+      $invoice->refresh(true)->setAmounts()->save();
+      return $invoice;
+    }
+
+    return false;
+  }
 }

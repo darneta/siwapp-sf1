@@ -193,8 +193,25 @@ class invoicesActions extends sfActions
             warn($i18n->__('The invoice could not be sent due to an error.'));
         }
       }
-      $this->getUser()->info($i18n->__('The invoice was successfully saved.'));
-      $this->redirect('invoices/edit?id='.$invoice->id);
+
+        $newInvoice = null;
+
+        if ($request->getParameter('generate_invoice')) {
+            $newInvoice = $invoice->generateInvoice();
+
+            if ($newInvoice) {
+                $this->getUser()->info($i18n->__('The invoice was successfully created.'));
+            } else {
+                $this->getUser()->warn($i18n->__('The invoice could not be created due to an error.'));
+            }
+        }
+
+        if ($newInvoice) {
+            $this->redirect('invoices/edit?id=' . $newInvoice->id);
+        } else {
+            $this->getUser()->info($i18n->__('The invoice was successfully saved.'));
+            $this->redirect('invoices/edit?id=' . $invoice->id);
+        }
     }
     else
     {

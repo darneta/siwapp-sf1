@@ -57,6 +57,7 @@
           <li class="name"><strong><?php echo __('Label')?></strong></li>
           <li class="value"><strong><?php echo __('Value') ?></strong></li>
           <li class="first_number"><strong><?php echo __('Initial value')?></strong></li>
+          <li class="pre-invoice"><strong><?php echo __('Pre-invoice')?></strong></li>
         </ul>
         <?php foreach ($form['seriess'] as $s): ?>
         <?php echo $s?>
