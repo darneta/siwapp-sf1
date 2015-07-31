@@ -36,7 +36,7 @@ class Common_Twig_Extension extends Twig_Extension
 function common_twig_extension_format_currency($amount, $culture = null)
 {
   $currency = sfContext::getInstance()->getUser()->getCurrency();
-  return format_currency($amount, $currency, $culture);
+  return format_currency(round($amount, 2), $currency, $culture);
 }
 
 function common_twig_extension_round($amount, $decimals = 2)
