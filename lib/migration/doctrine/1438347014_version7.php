@@ -6,7 +6,7 @@ class Version7 extends Doctrine_Migration_Base
 {
     public function up()
     {
-        $this->changeColumn( 'item', 'discount', 'decimal', 53, array('scale' => 6));
+        $this->changeColumn( 'item', 'discount', 'decimal', 53, array('scale' => 10));
     }
 
     public function down()
