@@ -9,3 +9,4 @@ Fork of [siwapp](https://github.com/siwapp/siwapp-sf1) with added dockerize supp
 * Add units to invoice items
 * Pre-invoices (pre-invoice series)
 * Custom email subject, text, filename
+* 10 decimal points discount percent
