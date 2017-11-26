@@ -212,4 +212,23 @@ class Invoice extends BaseInvoice
 
     return false;
   }
+
+  public function getTaxAmounts()
+  {
+      $amounts = [];
+
+      /** @var Item $item */
+      foreach ($this->Items as $item) {
+          /** @var Tax $tax */
+          foreach ($item->Taxes as $tax) {
+              if (!isset($amounts[$tax->name])) {
+                  $amounts[$tax->name] = 0.0;
+              }
+
+              $amounts[$tax->name] += $item->getTaxAmount($tax);
+          }
+      }
+
+      return $amounts;
+  }
 }
